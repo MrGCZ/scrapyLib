@@ -51,7 +51,7 @@ DOWNLOAD_DELAY = 3
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'pcf_sh.middlewares.SeleniumDownloadMiddleware': 1,
+    'pcf_sh.middlewares.SeleniumDownloadMiddleware': 10,
     #'scrapy_selenium.SeleniumMiddleware': 800
 }
 
@@ -65,6 +65,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'pcf_sh.pipelines.MysqlPipeline': 300,
+   'pcf_sh.pipelines.DuplicatesPipeline': 500,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

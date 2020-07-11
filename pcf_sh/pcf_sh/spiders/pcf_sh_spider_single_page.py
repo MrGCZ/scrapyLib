@@ -8,32 +8,32 @@ from scrapy.utils.project import get_project_settings
 from pcf_sh.items import PcfSec, PcfSecItemLoader
 
 
-class PcfShSpider(CrawlSpider):
+class PcfShSpider(scrapy.Spider):
 
     name = 'pcf_sh_spider'
-    allowed_domains = ["sse.com.cn"]
-    start_urls = [
-        "http://www.sse.com.cn/disclosure/fund/etflist/",
-        #"http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=005&fundid=510010&etfClass=1"
-    ]
-    rules = (
-        Rule(LinkExtractor(allow=("detail.shtml",
-                                  )
-                           ),
-             callback='parse_item'
-             ),
-    )
+    # allowed_domains = ["sse.com.cn"]
+    # start_urls = [
+    #     "http://www.sse.com.cn/disclosure/fund/etflist/",
+    #     #"http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=005&fundid=510010&etfClass=1"
+    # ]
+    # rules = (
+    #     Rule(LinkExtractor(allow=("detail.shtml",
+    #                               )
+    #                        ),
+    #          callback='parse_item'
+    #          ),
+    # )
 
-    # def start_requests(self):
-    #     urls = [
-    #         #'http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=123&fundid=512550&etfClass=2',
-    #         'http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=005&fundid=510010&etfClass=1',
-    #         #'http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=011&fundid=510070&etfClass=1'
-    #     ]
-    #     for url in urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def start_requests(self):
+        urls = [
+            #'http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=123&fundid=512550&etfClass=2',
+            'http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=005&fundid=510010&etfClass=1',
+            #'http://www.sse.com.cn/disclosure/fund/etflist/detail.shtml?type=011&fundid=510070&etfClass=1'
+        ]
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse_item(self, response):
+    def parse(self, response):
         print('###########parse start###########')
         fund_name = response.xpath('//*[@id="tableData_tableData1"]/div[2]/table/tbody/tr[2]/td/text()').get()
         fund_id = response.xpath('//*[@id="tableData_tableData1"]/div[2]/table/tbody/tr[4]/td/text()').get()
